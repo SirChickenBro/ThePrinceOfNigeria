@@ -6,11 +6,13 @@ using TMPro;
 public class PlayFabLogin : MonoBehaviour
 {
     [SerializeField] private GameObject signInDisplay = default;
+    [SerializeField] private GameObject matchMakingDisplay = default;
     [SerializeField] private TMP_InputField usernameInput = default;
     [SerializeField] private TMP_InputField emailInput = default;
     [SerializeField] private TMP_InputField passwordInput = default;
 
     public static string SessionTicket;
+    public static string EntityId;
 
     public void CreateAccount()
     {
@@ -22,6 +24,7 @@ public class PlayFabLogin : MonoBehaviour
         }, result =>
         {
             SessionTicket = result.SessionTicket;
+            EntityId = result.EntityToken.Entity.Id;
             signInDisplay.SetActive(false);
         }, error =>
         {
@@ -38,7 +41,9 @@ public class PlayFabLogin : MonoBehaviour
     }, result =>
     {
         SessionTicket = result.SessionTicket;
+        EntityId = result.EntityToken.Entity.Id;
         signInDisplay.SetActive(false);
+        matchMakingDisplay.SetActive(true);
     }, error =>
     {
         Debug.LogError(error.GenerateErrorReport());
